@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: splattr_old.rb</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>splattr_old.rb</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>lib/splattr/splattr_old.rb
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Thu Sep 23 09:20:20 -0400 2010</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+require &#8216;ostruct&#8216;
+</p>
+<p>
+module <a href="../../../classes/Splattr.html">Splattr</a>
+</p>
+<pre>
+       def is_splat(*argv)
+               puts *argv.inspect
+               puts argv.inspect
+               #return false if argv.nil?
+               false
+       end
+       protected :is_splat
+
+       def eq(*argv,&amp;block)
+               #is_splat *argv
+
+               hash=argv.pop
+               objects=argv.flatten
+
+               return_result=true
+
+               objects.each {|obj|
+                       hash.each {|key,value|
+                               match_result=(self.send(key)==obj.send(key))==value
+
+                               return_object = OpenStruct.new
+                               return_object.object       = obj
+                               return_object.key            = key
+                               return_object.value          = value
+                               return_object.result  = match_result
+
+                               return_object.description = &quot;[#{obj.class.name}##{key} == #{self.class.name}##{key}]:testing for #{value.to_s}, the result was #{match_result.to_s}&quot;
+
+                               if block_given?
+                                       yield self, return_object
+                               end
+
+                               return_result = false if return_result &amp;&amp; !match_result
+                       }
+               }
+
+               return_result
+       end
+
+       def ne(*argv,&amp;block)
+    !eq(*argv,&amp;block)
+  end
+</pre>
+<p>
+end
+</p>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>
